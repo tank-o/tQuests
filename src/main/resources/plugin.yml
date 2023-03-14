@@ -3,7 +3,7 @@ author: tanko
 version: '${project.version}'
 main: tanko.tquests.TQuests
 api-version: 1.18
-softdepend: [Citizens, tInteractions]
+softdepend: [Citizens, tInteractions,Vault]
 commands:
   quest:
     description: quest command
@@ -17,3 +17,7 @@ commands:
     description: reward command
     usage: /<command>
     permission: tquests.commands.admin.reward
+  condition:
+    description: condition command
+    usage: /<command>
+    permission: tquests.commands.admin.condition

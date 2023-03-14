@@ -3,10 +3,7 @@ package tanko.tquests.persistence;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import tanko.tquests.TQuests;
-import tanko.tquests.system.Quest;
-import tanko.tquests.system.Questline;
-import tanko.tquests.system.Reward;
-import tanko.tquests.system.Step;
+import tanko.tquests.system.*;
 
 import java.util.Map;
 import java.util.UUID;
@@ -47,6 +44,12 @@ public final class ConfigWriter {
             ConfigurationSection rewardSection = rewardsSection.createSection(reward.getID());
             rewardSection.set("type", TQuests.getComponentManager().getRewardID(reward));
             reward.save(rewardSection);
+        }
+        ConfigurationSection conditionsSection = questSection.createSection("conditions");
+        for (Condition condition : quest.getConditions()) {
+            ConfigurationSection conditionSection = conditionsSection.createSection(condition.getID());
+            conditionSection.set("type", TQuests.getComponentManager().getConditionID(condition));
+            condition.save(conditionSection);
         }
         writeQuestProgress(quest);
         QuestsFile.save();

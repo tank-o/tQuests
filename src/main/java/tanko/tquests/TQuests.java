@@ -1,13 +1,17 @@
 package tanko.tquests;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import tanko.tinteractions.TInteractions;
+import tanko.tquests.commands.ConditionCommand;
 import tanko.tquests.commands.QuestCommand;
 import tanko.tquests.commands.RewardCommand;
 import tanko.tquests.commands.StepCommand;
 import tanko.tquests.persistence.*;
+import tanko.tquests.system.Condition;
 import tanko.tquests.system.Quest;
 import tanko.tquests.system.Reward;
 import tanko.tquests.system.Step;
@@ -22,13 +26,16 @@ public final class TQuests extends JavaPlugin {
     private static QuestRegistry questRegistry;
     private static ComponentManager componentManager;
     private static TQuests instance;
+    private Economy economy;
 
     private static boolean citizensEnabled = false;
     private static boolean tInteractionsEnabled = false;
+    private static boolean vaultEnabled = false;
 
     private static final Map<UUID,Quest> selectedQuests = new HashMap<>();
     private static final Map<UUID,Step> selectedSteps = new HashMap<>();
     private static final Map<UUID,Reward> selectedRewards = new HashMap<>();
+    private static final Map<UUID, Condition> selectedConditions = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -37,6 +44,7 @@ public final class TQuests extends JavaPlugin {
         getCommand("quest").setExecutor(new QuestCommand());
         getCommand("step").setExecutor(new StepCommand());
         getCommand("reward").setExecutor(new RewardCommand());
+        getCommand("condition").setExecutor(new ConditionCommand());
 
         // Setup Data Files
         QuestsFile.setup(this);
@@ -68,6 +76,17 @@ public final class TQuests extends JavaPlugin {
             }
         }
 
+        // Vault
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null){
+            if (Bukkit.getPluginManager().getPlugin("Vault").isEnabled()){
+                Bukkit.getLogger().info("Vault found, enabling Vault support");
+                vaultEnabled = true;
+                setupEconomy();
+            } else {
+                Bukkit.getLogger().warning("Vault not found, types that require Vault will not be registered");
+            }
+        }
+
         ConfigReader.readQuests();
     }
 
@@ -78,6 +97,17 @@ public final class TQuests extends JavaPlugin {
             ConfigWriter.writeQuest(quest);
         }
         questRegistry.savePlayerData();
+    }
+
+    private void setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return;
+        }
+        economy = rsp.getProvider();
     }
 
     public static QuestRegistry getQuestRegistry(){
@@ -92,12 +122,20 @@ public final class TQuests extends JavaPlugin {
         return componentManager;
     }
 
+    public static Economy getEconomy(){
+        return instance.economy;
+    }
+
     public static boolean isCitizensEnabled(){
         return citizensEnabled;
     }
 
     public static boolean isTInteractionsEnabled(){
         return tInteractionsEnabled;
+    }
+
+    public static boolean isVaultEnabled(){
+        return vaultEnabled;
     }
 
     public static Quest getSelectedQuest(Player player){
@@ -122,5 +160,13 @@ public final class TQuests extends JavaPlugin {
 
     public static void setSelectedReward(Player player, Reward reward){
         selectedRewards.put(player.getUniqueId(),reward);
+    }
+
+    public static Condition getSelectedCondition(Player player){
+        return selectedConditions.get(player.getUniqueId());
+    }
+
+    public static void setSelectedCondition(Player player, Condition condition){
+        selectedConditions.put(player.getUniqueId(),condition);
     }
 }

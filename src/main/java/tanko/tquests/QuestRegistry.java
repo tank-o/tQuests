@@ -60,9 +60,11 @@ public final class QuestRegistry {
                 throw new IllegalArgumentException("§cYou have already completed quest!");
             if (questsInProgress.get(uuid).contains(quest.getID()))
                 throw new IllegalArgumentException("§cYou are already doing this quest!");
-            questsInProgress.get(uuid).add(quest.getID());
-            quest.accept(player);
-            return true;
+            if (quest.accept(player)) {
+                questsInProgress.get(uuid).add(quest.getID());
+                return true;
+            }
+            return false;
         } catch (IllegalArgumentException e){
             player.sendMessage(e.getMessage());
             return false;

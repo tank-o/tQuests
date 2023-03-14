@@ -124,7 +124,10 @@ public class QuestCommand implements CommandExecutor {
             player.sendMessage("Quest " + questID + " does not exist");
             return;
         }
-        if (!TQuests.getQuestRegistry().startQuest(quest,player)) return;
+        if (!TQuests.getQuestRegistry().startQuest(quest,player)){
+            player.sendMessage("Quest could not be started");
+            return;
+        }
         player.sendMessage("Quest " + questID + " accepted");
     }
 
