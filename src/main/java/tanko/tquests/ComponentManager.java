@@ -2,10 +2,12 @@ package tanko.tquests;
 
 import tanko.tquests.citizens.GiveItemStep;
 import tanko.tquests.citizens.NPCTalkStep;
+import tanko.tquests.conditions.ItemCondition;
 import tanko.tquests.rewards.ExperienceReward;
 import tanko.tquests.rewards.ItemReward;
 import tanko.tquests.steps.BreakBlockStep;
 import tanko.tquests.steps.ObtainItemStep;
+import tanko.tquests.system.Condition;
 import tanko.tquests.system.Reward;
 import tanko.tquests.system.Step;
 
@@ -15,17 +17,22 @@ import java.util.Map;
 public final class ComponentManager {
     private final Map<String,Class<? extends Step>> stepRegistry = new HashMap<>();
     private final Map<String,Class<? extends Reward>> rewardRegistry = new HashMap<>();
+    private final Map<String,Class<? extends Condition>> conditionRegistry = new HashMap<>();
 
     public ComponentManager(){
         TQuests.getInstance().getLogger().info("Registering Default Components");
         rewardRegistry.put("item", ItemReward.class);
         rewardRegistry.put("xp", ExperienceReward.class);
+
         stepRegistry.put("block", BreakBlockStep.class);
         stepRegistry.put("obtainItem", ObtainItemStep.class);
+
+        conditionRegistry.put("item", ItemCondition.class);
     }
 
     public void registerCitizensSteps(){
         TQuests.getInstance().getLogger().info("Registering Citizens Components");
+
         stepRegistry.put("giveItem", GiveItemStep.class);
         stepRegistry.put("talk", NPCTalkStep.class);
     }
@@ -46,6 +53,10 @@ public final class ComponentManager {
         return rewardRegistry.get(ID);
     }
 
+    public Class<? extends Condition> getCondition(String ID){
+        return conditionRegistry.get(ID);
+    }
+
     public  String getStepID(Step step){
         for (Map.Entry<String, Class<? extends Step>> entry : stepRegistry.entrySet()) {
             if (entry.getValue().equals(step.getClass())){
@@ -58,6 +69,15 @@ public final class ComponentManager {
     public String getRewardID(Reward reward){
         for (Map.Entry<String, Class<? extends Reward>> entry : rewardRegistry.entrySet()) {
             if (entry.getValue().equals(reward.getClass())){
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public String getConditionID(Condition condition){
+        for (Map.Entry<String, Class<? extends Condition>> entry : conditionRegistry.entrySet()) {
+            if (entry.getValue().equals(condition.getClass())){
                 return entry.getKey();
             }
         }

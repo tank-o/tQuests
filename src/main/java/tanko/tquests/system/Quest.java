@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import tanko.tquests.TQuests;
-import tanko.tquests.persistence.QuestsFile;
 
 import java.util.*;
 
@@ -14,6 +13,7 @@ public class Quest {
     protected String description;
     protected List<Step> steps = new ArrayList<>();
     protected List<Reward> rewards = new ArrayList<>();
+    protected List<Condition> conditions = new ArrayList<>();
     protected Map<UUID,Integer> stepProgress = new HashMap<>();
 
     // This is the constructor that is used when creating a new quest
@@ -55,6 +55,10 @@ public class Quest {
 
     public List<Reward> getRewards() {
         return rewards;
+    }
+
+    public List<Condition> getConditions() {
+        return conditions;
     }
 
     public Map<UUID, Integer> getStepProgress() {
@@ -190,5 +194,43 @@ public class Quest {
 
     public Reward rewardByID(String ID){
         return rewards.stream().filter(reward -> reward.getID().equals(ID)).findFirst().orElse(null);
+    }
+
+    // Condition management
+
+    public boolean addCondition(String ID, String type){
+        Class<? extends Condition> conditionClass = TQuests.getComponentManager().getCondition(type);
+        if (conditionClass == null) return false;
+        try {
+            Condition condition = conditionClass.getConstructor(String.class).newInstance(ID);
+            conditions.add(condition);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeCondition(String ID){
+        try {
+            Condition condition = conditions.stream().filter(c -> c.getID().equals(ID)).findFirst().orElse(null);
+            if (condition == null) return false;
+            conditions.remove(condition);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Condition conditionByID(String ID){
+        return conditions.stream().filter(condition -> condition.getID().equals(ID)).findFirst().orElse(null);
+    }
+
+    public boolean checkConditions(Player player){
+        for (Condition condition : conditions) {
+            if (!condition.satisfied(player)) return false;
+        }
+        return true;
     }
 }

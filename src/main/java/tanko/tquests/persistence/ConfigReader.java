@@ -3,6 +3,7 @@ package tanko.tquests.persistence;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import tanko.tquests.TQuests;
+import tanko.tquests.system.Condition;
 import tanko.tquests.system.Quest;
 import tanko.tquests.system.Reward;
 import tanko.tquests.system.Step;
@@ -41,6 +42,22 @@ public final class ConfigReader {
                 rewardClass.cast(reward);
                 reward.load(rewardSection);
                 rewards.add(reward);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        ConfigurationSection conditionsSection = questSection.getConfigurationSection("conditions");
+        List<Condition> conditions = new ArrayList<>();
+        for (String conditionID : conditionsSection.getKeys(false)) {
+            try {
+                ConfigurationSection conditionSection = conditionsSection.getConfigurationSection(conditionID);
+                String type = conditionSection.getString("type");
+                Class<? extends Condition> conditionClass = TQuests.getComponentManager().getCondition(type);
+                Condition condition = conditionClass.getConstructor(String.class).newInstance(conditionID);
+                conditionClass.cast(condition);
+                condition.load(conditionSection);
+                conditions.add(condition);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
