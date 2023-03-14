@@ -8,6 +8,7 @@ import tanko.tquests.commands.QuestCommand;
 import tanko.tquests.commands.RewardCommand;
 import tanko.tquests.commands.StepCommand;
 import tanko.tquests.persistence.*;
+import tanko.tquests.system.Condition;
 import tanko.tquests.system.Quest;
 import tanko.tquests.system.Reward;
 import tanko.tquests.system.Step;
@@ -29,6 +30,7 @@ public final class TQuests extends JavaPlugin {
     private static final Map<UUID,Quest> selectedQuests = new HashMap<>();
     private static final Map<UUID,Step> selectedSteps = new HashMap<>();
     private static final Map<UUID,Reward> selectedRewards = new HashMap<>();
+    private static final Map<UUID, Condition> selectedConditions = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -122,5 +124,13 @@ public final class TQuests extends JavaPlugin {
 
     public static void setSelectedReward(Player player, Reward reward){
         selectedRewards.put(player.getUniqueId(),reward);
+    }
+
+    public static Condition getSelectedCondition(Player player){
+        return selectedConditions.get(player.getUniqueId());
+    }
+
+    public static void setSelectedCondition(Player player, Condition condition){
+        selectedConditions.put(player.getUniqueId(),condition);
     }
 }
