@@ -1,4 +1,4 @@
-package tanko.tquests.citizens;
+package tanko.tquests.steps.citizens;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCRightClickEvent;

@@ -17,15 +17,17 @@ public class ItemCondition extends Condition {
 
     @Override
     public boolean satisfied(Player player) {
-        if (player.getInventory().containsAtLeast(item,amount)){
-            if (take){
-                for (int i = 0; i < amount; i++) {
-                    player.getInventory().removeItem(item);
-                }
+        return player.getInventory().containsAtLeast(item,amount);
+    }
+
+    @Override
+    public boolean action(Player player) {
+        if (take){
+            for (int i = 0; i < amount; i++){
+                player.getInventory().removeItem(item);
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
     @Override

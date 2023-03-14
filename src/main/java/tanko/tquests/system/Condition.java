@@ -11,6 +11,7 @@ public abstract class Condition {
     }
 
     public abstract boolean satisfied(Player player);
+    public abstract boolean action(Player player);
     public abstract void handleCommand(Player player, String[] args);
     public abstract void load(ConfigurationSection section);
     public abstract void save(ConfigurationSection section);

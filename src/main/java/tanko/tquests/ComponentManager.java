@@ -1,7 +1,9 @@
 package tanko.tquests;
 
-import tanko.tquests.citizens.GiveItemStep;
-import tanko.tquests.citizens.NPCTalkStep;
+import tanko.tquests.conditions.vault.MoneyCondition;
+import tanko.tquests.rewards.vault.MoneyReward;
+import tanko.tquests.steps.citizens.GiveItemStep;
+import tanko.tquests.steps.citizens.NPCTalkStep;
 import tanko.tquests.conditions.ItemCondition;
 import tanko.tquests.conditions.QuestCondition;
 import tanko.tquests.rewards.ExperienceReward;
@@ -37,6 +39,18 @@ public final class ComponentManager {
 
         stepRegistry.put("giveItem", GiveItemStep.class);
         stepRegistry.put("talk", NPCTalkStep.class);
+    }
+
+    public void registerVaultSteps(){
+        TQuests.getInstance().getLogger().info("Registering Vault Components");
+
+        conditionRegistry.put("money", MoneyCondition.class);
+
+        rewardRegistry.put("money", MoneyReward.class);
+    }
+
+    public void registerCondition(String ID, Class<? extends Condition> condition){
+        conditionRegistry.put(ID,condition);
     }
 
     public void registerStep(String ID, Class<? extends Step> step){

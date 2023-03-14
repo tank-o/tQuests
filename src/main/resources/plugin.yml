@@ -3,7 +3,7 @@ author: tanko
 version: '${project.version}'
 main: tanko.tquests.TQuests
 api-version: 1.18
-softdepend: [Citizens, tInteractions]
+softdepend: [Citizens, tInteractions,Vault]
 commands:
   quest:
     description: quest command

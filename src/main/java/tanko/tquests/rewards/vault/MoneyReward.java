@@ -1,29 +1,36 @@
-package tanko.tquests.rewards;
+package tanko.tquests.rewards.vault;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import tanko.tquests.TQuests;
 import tanko.tquests.system.Reward;
 
-public class ExperienceReward extends Reward {
-    int amount = 0;
+public class MoneyReward extends Reward {
+    private double amount;
 
-    public ExperienceReward(String ID) {
+    public MoneyReward(String ID) {
         super(ID);
     }
 
     @Override
     public void give(Player player) {
-        player.giveExp(amount);
+        try {
+            Economy economy = TQuests.getEconomy();
+            economy.depositPlayer(player, amount);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void load(ConfigurationSection section) {
-        amount = section.getInt("amount");
+        amount = section.getDouble("amount");
     }
 
     @Override
     public void save(ConfigurationSection section) {
-        section.set("amount", amount);
+        section.set("amount",amount);
     }
 
     @Override
@@ -32,7 +39,7 @@ public class ExperienceReward extends Reward {
         switch (var){
             case "amount":
                 try {
-                    amount = Integer.parseInt(args[1]);
+                    amount = Double.parseDouble(args[1]);
                 } catch (NumberFormatException e){
                     player.sendMessage("Invalid number");
                 }

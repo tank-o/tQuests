@@ -19,6 +19,11 @@ public class QuestCondition extends Condition {
     }
 
     @Override
+    public boolean action(Player player) {
+        return true;
+    }
+
+    @Override
     public void handleCommand(Player player, String[] args) {
         String var = args[0];
         switch (var){
