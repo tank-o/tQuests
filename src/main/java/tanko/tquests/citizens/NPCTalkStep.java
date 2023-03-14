@@ -27,10 +27,6 @@ public class NPCTalkStep extends CitizenStep {
         Player player = event.getClicker();
         if (!(progress.containsKey(player.getUniqueId()))) return;
         if (npc != this.npc) return;
-        if (progress.get(player.getUniqueId()) == messages.size()){
-            complete(player);
-            return;
-        }
         String message = messages.get(progress.get(player.getUniqueId()));
         player.sendMessage(progressString(player)+ ChatColor.YELLOW + npc.getName() + ": " + ChatColor.WHITE + message);
         incrementProgress(player);
@@ -58,11 +54,13 @@ public class NPCTalkStep extends CitizenStep {
                         // Join the rest of the args together and put it into one string
                         String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
                         messages.add(message);
+                        amount++;
                         player.sendMessage("§aAdded message: " + message);
                     }
                     case "remove" -> {
                         int index = Integer.parseInt(args[2]);
                         messages.remove(index);
+                        amount--;
                         player.sendMessage("§aRemoved message at index " + index);
                     }
                 }

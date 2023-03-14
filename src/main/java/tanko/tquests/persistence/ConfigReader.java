@@ -64,7 +64,7 @@ public final class ConfigReader {
             }
         }
         Map<UUID,Integer> playerProgress = readQuestProgress(ID);
-        Quest quest = new Quest(ID,name,description,rewards,playerProgress);
+        Quest quest = new Quest(ID,name,description,rewards,conditions,playerProgress);
         ConfigurationSection stepsSection = questSection.getConfigurationSection("steps");
         for (String stepID : stepsSection.getKeys(false)) {
             try {

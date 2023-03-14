@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import tanko.tinteractions.TInteractions;
+import tanko.tquests.commands.ConditionCommand;
 import tanko.tquests.commands.QuestCommand;
 import tanko.tquests.commands.RewardCommand;
 import tanko.tquests.commands.StepCommand;
@@ -39,6 +40,7 @@ public final class TQuests extends JavaPlugin {
         getCommand("quest").setExecutor(new QuestCommand());
         getCommand("step").setExecutor(new StepCommand());
         getCommand("reward").setExecutor(new RewardCommand());
+        getCommand("condition").setExecutor(new ConditionCommand());
 
         // Setup Data Files
         QuestsFile.setup(this);

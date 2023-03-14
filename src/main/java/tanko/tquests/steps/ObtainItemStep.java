@@ -36,14 +36,12 @@ public class ObtainItemStep extends Step {
     @EventHandler
     public void onItemObtain(EntityPickupItemEvent event){
         if (this.item == null || this.amount == 0) return;
+        if (!event.getItem().getItemStack().isSimilar(item)) return;
         Entity entity = event.getEntity();
         if (!(entity instanceof Player)) return;
         Player player = (Player) entity;
-        if (event.getItem().getItemStack().isSimilar(item)){
-            incrementProgress(player);
-            if (progress.get(player.getUniqueId()) >= amount){
-                complete(player);
-            }
+        if (incrementProgress(player)) {
+            player.sendMessage("Progress: " + progress.get(player.getUniqueId()) + "/" + amount);
         }
     }
 

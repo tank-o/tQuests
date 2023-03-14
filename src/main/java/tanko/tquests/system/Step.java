@@ -67,13 +67,17 @@ public abstract class Step implements Listener {
         return relatedQuest;
     }
 
-    protected void incrementProgress(Player player){
+    protected boolean incrementProgress(Player player){
         if (!progress.containsKey(player.getUniqueId())) {
-            if (!TQuests.getQuestRegistry().playerHasQuest(relatedQuest,player)) return;
+            if (!TQuests.getQuestRegistry().playerHasQuest(relatedQuest,player)) return false;
             addPlayer(player);
         }
-        if (progress.get(player.getUniqueId()) >= amount) return;
+        if (progress.get(player.getUniqueId()) >= amount) {
+            if (autoComplete) complete(player);
+            return false;
+        }
         progress.put(player.getUniqueId(), progress.get(player.getUniqueId()) + 1);
+        return true;
     }
 
     public boolean complete(Player player){

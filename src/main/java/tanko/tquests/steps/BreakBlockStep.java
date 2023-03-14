@@ -21,8 +21,9 @@ public class BreakBlockStep extends Step {
         Player player = event.getPlayer();
         if (!(progress.containsKey(player.getUniqueId()))) return;
         if (event.getBlock().getType() != material) return;
-        incrementProgress(player);
-        player.sendMessage("Progress: " + progress.get(player.getUniqueId()) + "/" + amount);
+        if (incrementProgress(player)) {
+            player.sendMessage("Progress: " + progress.get(player.getUniqueId()) + "/" + amount);
+        }
     }
 
     public boolean setBlock(Material material) {

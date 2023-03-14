@@ -26,6 +26,7 @@ public class Quest {
                  String name,
                  String description,
                  List<Reward> rewards,
+                 List<Condition> conditions,
                  Map<UUID,Integer> stepProgress) {
 
         this.ID = ID;
@@ -33,6 +34,7 @@ public class Quest {
         this.description = description;
         this.rewards = rewards;
         this.stepProgress = stepProgress;
+        this.conditions = conditions;
     }
 
     // Getters and Setters
@@ -75,11 +77,13 @@ public class Quest {
 
     // Quest management
 
-    public void accept(Player player){
+    public boolean accept(Player player){
         // Add to local quest data
+        if (!checkConditions(player)) return false;
         stepProgress.put(player.getUniqueId(), 0);
         Step step = getCurrentStep(player);
         step.addPlayer(player);
+        return true;
     }
 
     public void completeQuest(Player player){
@@ -223,8 +227,8 @@ public class Quest {
         }
     }
 
-    public Condition conditionByID(String ID){
-        return conditions.stream().filter(condition -> condition.getID().equals(ID)).findFirst().orElse(null);
+    public Condition conditionByID(String conditionID){
+        return conditions.stream().filter(condition -> condition.getID().equals(conditionID)).findFirst().orElse(null);
     }
 
     public boolean checkConditions(Player player){

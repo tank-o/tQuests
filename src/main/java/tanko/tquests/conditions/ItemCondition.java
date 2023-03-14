@@ -39,6 +39,7 @@ public class ItemCondition extends Condition {
                 }
                 this.item = player.getInventory().getItemInMainHand();
                 this.item.setAmount(1);
+                player.sendMessage("Item set to " + item.getType());
                 break;
             case "amount":
                 try {

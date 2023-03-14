@@ -26,9 +26,18 @@ public class GiveItemStep extends CitizenStep {
         NPC npc = event.getNPC();
         Player player = event.getClicker();
         if (npc == this.npc){
-            if (player.getInventory().containsAtLeast(item, amount)){
-                player.getInventory().removeItem(new ItemStack(item.getType(), amount));
-                complete(player);
+            for (ItemStack pItem : player.getInventory().getContents()) {
+                if (pItem == null) continue;
+                if (pItem.isSimilar(item)) {
+                    if (pItem.getAmount() >= amount - progress.get(player.getUniqueId())) {
+                        pItem.setAmount(pItem.getAmount() - (amount - progress.get(player.getUniqueId())));
+                        complete(player);
+                        return;
+                    } else {
+                      pItem.setAmount(0);
+                      progress.put(player.getUniqueId(), progress.get(player.getUniqueId()) + pItem.getAmount());
+                    }
+                }
             }
         }
     }

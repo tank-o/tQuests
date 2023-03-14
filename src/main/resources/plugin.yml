@@ -17,3 +17,7 @@ commands:
     description: reward command
     usage: /<command>
     permission: tquests.commands.admin.reward
+  condition:
+    description: condition command
+    usage: /<command>
+    permission: tquests.commands.admin.condition

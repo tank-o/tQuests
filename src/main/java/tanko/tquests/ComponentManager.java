@@ -3,6 +3,7 @@ package tanko.tquests;
 import tanko.tquests.citizens.GiveItemStep;
 import tanko.tquests.citizens.NPCTalkStep;
 import tanko.tquests.conditions.ItemCondition;
+import tanko.tquests.conditions.QuestCondition;
 import tanko.tquests.rewards.ExperienceReward;
 import tanko.tquests.rewards.ItemReward;
 import tanko.tquests.steps.BreakBlockStep;
@@ -28,6 +29,7 @@ public final class ComponentManager {
         stepRegistry.put("obtainItem", ObtainItemStep.class);
 
         conditionRegistry.put("item", ItemCondition.class);
+        conditionRegistry.put("quest", QuestCondition.class);
     }
 
     public void registerCitizensSteps(){

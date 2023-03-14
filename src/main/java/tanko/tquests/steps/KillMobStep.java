@@ -17,14 +17,14 @@ public class KillMobStep extends Step {
 
     @EventHandler
     public void onMobKill(EntityDeathEvent event){
-        if (mob == null || amount == 0) return;
         Player player = event.getEntity().getKiller();
         if (player == null) return;
-        if (event.getEntity().getType() == mob){
-            incrementProgress(player);
-            if (progress.get(player.getUniqueId()) >= amount) {
-                complete(player);
-            }
+        if (mob == null || amount == 0){
+            player.sendMessage("Step not configured properly - mob or amount not set");
+        }
+        if (event.getEntity().getType() != mob) return;
+        if (incrementProgress(player)){
+            player.sendMessage("Progress: " + progress.get(player.getUniqueId()) + "/" + amount);
         }
     }
 

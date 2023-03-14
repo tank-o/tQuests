@@ -86,8 +86,8 @@ public class ConditionCommand implements CommandExecutor {
     }
 
     private void setCondition(Player player, String[] args) {
-        if (args.length < 2) {
-            player.sendMessage("Usage: /condition set <condition name> <condition type>");
+        if (args.length < 1) {
+            player.sendMessage("Usage: /condition set <var> [args]");
             return;
         }
         Condition condition = TQuests.getSelectedCondition(player);
@@ -95,6 +95,6 @@ public class ConditionCommand implements CommandExecutor {
             player.sendMessage("You must select a condition first before using this condition command");
             return;
         }
-        condition.handleCommand(player, Arrays.copyOfRange(args, 1, args.length));
+        condition.handleCommand(player, args);
     }
 }
