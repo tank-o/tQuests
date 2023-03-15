@@ -36,16 +36,13 @@ public final class ComponentManager {
 
     public void registerCitizensSteps(){
         TQuests.getInstance().getLogger().info("Registering Citizens Components");
-
         stepRegistry.put("giveItem", GiveItemStep.class);
         stepRegistry.put("talk", NPCTalkStep.class);
     }
 
     public void registerVaultSteps(){
         TQuests.getInstance().getLogger().info("Registering Vault Components");
-
         conditionRegistry.put("money", MoneyCondition.class);
-
         rewardRegistry.put("money", MoneyReward.class);
     }
 

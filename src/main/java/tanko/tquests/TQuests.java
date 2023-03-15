@@ -82,6 +82,7 @@ public final class TQuests extends JavaPlugin {
                 Bukkit.getLogger().info("Vault found, enabling Vault support");
                 vaultEnabled = true;
                 setupEconomy();
+                componentManager.registerVaultSteps();
             } else {
                 Bukkit.getLogger().warning("Vault not found, types that require Vault will not be registered");
             }
