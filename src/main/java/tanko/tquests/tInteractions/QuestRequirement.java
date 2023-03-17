@@ -37,6 +37,15 @@ public class QuestRequirement extends Requirement {
 
     @Override
     public void handleCommand(Player player, String[] args) {
-
+        String var = args[0];
+        switch (var){
+            case "quest":
+                String questID = args[1];
+                quest = TQuests.getQuestRegistry().getQuest(questID);
+                if (quest == null){
+                    player.sendMessage("Quest not found - check spelling and capitalization");
+                }
+                break;
+        }
     }
 }
