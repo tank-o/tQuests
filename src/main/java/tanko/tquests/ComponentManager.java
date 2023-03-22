@@ -46,6 +46,10 @@ public final class ComponentManager {
         rewardRegistry.put("money", MoneyReward.class);
     }
 
+    public void registerMythicSteps() {
+        TQuests.getInstance().getLogger().info("Registering Mythic Components");
+    }
+
     public void registerCondition(String ID, Class<? extends Condition> condition){
         conditionRegistry.put(ID,condition);
     }

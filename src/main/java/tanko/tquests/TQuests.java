@@ -1,10 +1,12 @@
 package tanko.tquests;
 
+import net.citizensnpcs.api.CitizensAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import tanko.tinteractions.InteractionRegistry;
 import tanko.tinteractions.TInteractions;
 import tanko.tquests.commands.ConditionCommand;
 import tanko.tquests.commands.QuestCommand;
@@ -65,17 +67,24 @@ public final class TQuests extends JavaPlugin {
                 Bukkit.getLogger().warning("Citizens not found, types that require Citizens will not be registered");
             }
         }
-
         // Register Interactions
-        if (Bukkit.getPluginManager().getPlugin("TInteractions") == null){
+        if (Bukkit.getPluginManager().getPlugin("TInteractions") != null){
             if (Bukkit.getPluginManager().getPlugin("TInteractions").isEnabled()){
-                Bukkit.getLogger().info("TInteractions found, enabling TInteractions support");
+                Bukkit.getLogger().info("tInteractions found, enabling tInteractions support");
                 tInteractionsEnabled = true;
                 TInteractions.getInteractionRegistry().registerRequirement("quest", QuestRequirement.class);
                 TInteractions.getInteractionRegistry().registerInteraction("quest", QuestInteraction.class);
             }
         }
-
+        // Register MythicMobs
+        if (Bukkit.getPluginManager().getPlugin("MythicMobs") != null){
+            if (Bukkit.getPluginManager().getPlugin("MythicMobs").isEnabled()){
+                Bukkit.getLogger().info("MythicMobs found, enabling MythicMobs support");
+                componentManager.registerMythicSteps();
+            } else {
+                Bukkit.getLogger().warning("MythicMobs not found, types that require MythicMobs will not be registered");
+            }
+        }
         // Vault
         if (Bukkit.getPluginManager().getPlugin("Vault") == null){
             if (Bukkit.getPluginManager().getPlugin("Vault").isEnabled()){
@@ -87,7 +96,6 @@ public final class TQuests extends JavaPlugin {
                 Bukkit.getLogger().warning("Vault not found, types that require Vault will not be registered");
             }
         }
-
         ConfigReader.readQuests();
     }
 

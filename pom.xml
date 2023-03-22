@@ -81,6 +81,11 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>nexus</id>
+            <name>Lumine Releases</name>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -118,6 +123,13 @@
             <groupId>com.github.tank-o</groupId>
             <artifactId>tInteractions</artifactId>
             <version>V0.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.lumine</groupId>
+            <artifactId>Mythic-Dist</artifactId>
+            <version>5.2.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
