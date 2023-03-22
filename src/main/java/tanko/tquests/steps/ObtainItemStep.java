@@ -40,7 +40,7 @@ public class ObtainItemStep extends Step {
         Entity entity = event.getEntity();
         if (!(entity instanceof Player)) return;
         Player player = (Player) entity;
-        if (incrementProgress(player)) {
+        if (addProgress(player,event.getItem().getItemStack().getAmount())) {
             player.sendMessage("Progress: " + progress.get(player.getUniqueId()) + "/" + amount);
         }
     }

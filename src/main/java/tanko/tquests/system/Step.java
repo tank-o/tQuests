@@ -67,7 +67,7 @@ public abstract class Step implements Listener {
         return relatedQuest;
     }
 
-    protected boolean incrementProgress(Player player){
+    protected boolean addProgress(Player player,int amount){
         if (!progress.containsKey(player.getUniqueId())) {
             if (!TQuests.getQuestRegistry().playerHasQuest(relatedQuest,player)) return false;
             addPlayer(player);
@@ -76,8 +76,12 @@ public abstract class Step implements Listener {
             if (autoComplete) complete(player);
             return false;
         }
-        progress.put(player.getUniqueId(), progress.get(player.getUniqueId()) + 1);
+        progress.put(player.getUniqueId(), progress.get(player.getUniqueId()) + amount);
         return true;
+    }
+
+    protected boolean incrementProgress(Player player){
+        return addProgress(player,1);
     }
 
     public boolean complete(Player player){

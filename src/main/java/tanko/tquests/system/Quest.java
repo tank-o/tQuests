@@ -162,9 +162,7 @@ public class Quest {
     public boolean playerFinishedSteps(Player player){
         return getCurrentStepNumber(player) == steps.size() - 1;
     }
-
     // Reward management
-
     public void giveRewards(Player player){
         for (Reward reward : rewards) {
             reward.give(player);
